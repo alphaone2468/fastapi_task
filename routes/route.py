@@ -24,7 +24,7 @@ class Stud(BaseModel):
 
 
 
-@router.post("/students")
+@router.post("/api/students")
 async def add_students(stud:Stud,response:Response):
     stud_dict = stud.dict()
     stud_dict['address'] = stud.address.dict()
@@ -33,7 +33,7 @@ async def add_students(stud:Stud,response:Response):
     return {"id":str(result.inserted_id)}
 
 
-@router.get("/students")
+@router.get("/api/students")
 async def get_students(response:Response,country:Optional[str]=None,age:Optional[int]=None):
     if(country==None and age==None):
         todos=list_serial(collection_name.find())
@@ -54,7 +54,7 @@ async def get_students(response:Response,country:Optional[str]=None,age:Optional
     response.status_code=200
     return {"data":data}
 
-@router.get("/students/{id}")
+@router.get("/api/students/{id}")
 async def get_students_with_id(id:str,response:Response):
     obj_id = ObjectId(id)
     result=list_serial(collection_name.find({"_id":obj_id}))
@@ -62,14 +62,14 @@ async def get_students_with_id(id:str,response:Response):
     response.status_code=200
     return result[0]
 
-@router.patch("/students/{id}")
+@router.patch("/api/students/{id}")
 async def update_student_details(id:str,stud:Stud,response:Response):
     id = ObjectId(id)
     result=collection_name.update_one({"_id":id},{"$set":stud.dict()})
     response.status_code=204
     return {}
 
-@router.delete("/students/{id}")
+@router.delete("/api/students/{id}")
 async def delete_student(id:str,response:Response):
     id=ObjectId(id)
     result=collection_name.delete_one({"_id":id})
