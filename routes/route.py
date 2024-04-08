@@ -58,7 +58,6 @@ async def get_students(response:Response,country:Optional[str]=None,age:Optional
 async def get_students_with_id(id:str,response:Response):
     obj_id = ObjectId(id)
     result=list_serial(collection_name.find({"_id":obj_id}))
-    print(result)
     result[0].pop("id")
     response.status_code=200
     return result[0]
