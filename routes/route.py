@@ -25,7 +25,7 @@ class Stud(BaseModel):
 
 
 @router.post("/api/students")
-async def add_students(stud:Stud,response:Response):
+async def add_student(stud:Stud,response:Response):
     stud_dict = stud.dict()
     stud_dict['address'] = stud.address.dict()
     result=collection_name.insert_one(stud_dict)
@@ -55,7 +55,7 @@ async def get_students(response:Response,country:Optional[str]=None,age:Optional
     return {"data":data}
 
 @router.get("/api/students/{id}")
-async def get_students_with_id(id:str,response:Response):
+async def get_student_with_id(id:str,response:Response):
     obj_id = ObjectId(id)
     result=list_serial(collection_name.find({"_id":obj_id}))
     result[0].pop("id")
